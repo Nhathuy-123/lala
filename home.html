@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @font-face {
+        font-family: happy;
+        src: url(font1.ttf);
+      }
+      @font-face {
+        font-family: tenn;
+        src: url(font3.ttf);
+      }
+      .happybirthday {
+        animation: fadeIn 2s ease-in-out infinite alternate;
+        color: white;
+        font-family: happy;
+      }
+      #yes {
+        margin-top: 100px;
+      }
+      #ten {
+        font-family: tenn;
+        margin: auto;
+      }
+
+      /* Thêm CSS cho hiệu ứng hoa giấy */
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: var(--color);
+        animation: confetti-fall 3s linear infinite,
+          confetti-rotate 4s linear infinite;
+      }
+
+      @keyframes confetti-fall {
+        0% {
+          top: -10vh;
+        }
+        100% {
+          top: 100vh;
+        }
+      }
+
+      @keyframes confetti-rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="boxheart" id="boxheart">
+      <div class="heart"><h1>Bấm vô đi</h1></div>
+      <div class="beat"></div>
+    </div>
+    <div class="boxchoose">
+      <audio id="background-audio">
+        <source src="happy.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <div>
+        <h1 class="happybirthday">Happy Birthday</h1>
+      </div>
+      <div class="listbutton">
+        <button id="yes">Sinh nhật vui vẻ nhaa</button>
+        <div id="confetti-container"></div>
+      </div>
+    </div>
+    <div class="popup">
+      <div class="inner">
+        <div id="yen-circle">
+          <img src="yen.jpg" alt="Yến" />
+        </div>
+        <h3>Chúc bà sinh nhật vui vẻ</h3>
+        <img src="love.gif" alt="" />
+        <div>
+          <ul>
+            Chúc bà đỗ nguyện vọng 1
+          </ul>
+          <ul>
+            Ngày nào cũng vui vẻ và sớm lấy lại gốc tiếng anh toán:_(
+          </ul>
+          <ul>
+            Càng lớn càng xinh đẹp học giỏi sớm cao được 3m
+            <span style="color: yellow">BẺ ĐÔI</span>
+          </ul>
+          <ul>
+            Chúc bà sớm đạt được ước mơ của mình và gặp được nhiều người bạn tốt
+          </ul>
+        </div>
+        <div id="ten">Nguyễn Phi Yến-<em>23/08/2010</em></div>
+      </div>
+    </div>
+    <script>
+      if (sessionStorage.getItem("loggedIn") !== "true") {
+        window.location.href = "index.html";
+      }
+
+      const noBtn = document.querySelector("#no");
+      const yesBtn = document.querySelector("#yes");
+      const boxheart = document.getElementById("boxheart");
+      const boxchoose = document.querySelector(".boxchoose");
+      const popup = document.querySelector(".popup");
+      const backgroundAudio = document.getElementById("background-audio");
+
+      boxheart.addEventListener("click", function () {
+        boxheart.classList.add("active");
+        boxchoose.classList.add("active");
+        backgroundAudio.play();
+      });
+
+      yesBtn.addEventListener("click", function () {
+        popup.classList.add("active");
+        for (let i = 0; i < 100; i++) {
+          createConfetti();
+        }
+      });
+
+      noBtn?.addEventListener("mouseenter", () => {
+        const top = Math.floor(Math.random() * window.innerHeight);
+        const left = Math.floor(Math.random() * window.innerWidth);
+        noBtn.style.top = `${top}px`;
+        noBtn.style.left = `${left}px`;
+      });
+
+      function createConfetti() {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        // Randomize confetti color
+        confetti.style.setProperty("--color", getRandomColor());
+
+        // Randomize position
+        confetti.style.left = Math.random() * 100 + "vw";
+
+        // Randomize rotation speed
+        confetti.style.animation = `confetti-fall 3s linear infinite, confetti-rotate ${
+          Math.random() * 2 + 2
+        }s linear infinite`;
+
+        // Add to confetti container
+        document.getElementById("confetti-container").appendChild(confetti);
+
+        // Remove confetti after falling
+        setTimeout(() => {
+          confetti.remove();
+        }, 3000);
+      }
+
+      function getRandomColor() {
+        const colors = ["#ff0", "#f00", "#0f0", "#00f", "#0ff", "#f0f"];
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+    </script>
+  </body>
+</html>
